@@ -1,0 +1,11 @@
+{
+  "display_name": "Add Body Param",
+  "loading_order": 20,
+  "js": "index.js",
+  "author": "Your Name",
+  "version": "1.0.0",
+  "description": "Adds /addbodyparam to append to custom_include_body",
+  "requires": [],
+  "optional": [],
+  "dependencies": []
+}
