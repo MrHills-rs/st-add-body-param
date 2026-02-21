@@ -56,10 +56,10 @@ function getBodyParamCallback() {
     const content = oai_settings.custom_include_body;
 
     if (!content || content.length === 0) {
-        return 'OpenAI Body Params are currently empty.';
+        return '';
     }
 
-    return `Current OpenAI Body Params:\n${content}`;
+    return `${content}`;
 }
 
 // Register the commands when module loads
