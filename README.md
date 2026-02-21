@@ -13,7 +13,7 @@ This is meant to be used together with llama.cpp
 or ik_llama.cpp to pass additional variables into the request programmatically, generally via
 quick replies.
 
-/addbodyparam "<string>"
+/addbodyparam '<string>'
 
 appends one parameter to the list
 
