@@ -1,9 +1,11 @@
-// We go up 3 levels: st-add-body-param -> third-party -> extensions -> scripts
-import { saveSettingsDebounced } from '../../../../script.js';
-import { SlashCommand } from '../../../slash-commands/SlashCommand.js';
-import { SlashCommandParser } from '../../../slash-commands/SlashCommandParser.js';
-import { ARGUMENT_TYPE, SlashCommandArgument } from '../../../slash-commands/SlashCommandArgument.js';
-import { oai_settings } from '../../../openai.js';
+// Extension: Add Body Param Slash Command
+// Location: scripts/extensions/third-party/st-add-body-param.js
+
+import { saveSettingsDebounced } from '../../../script.js';
+import { SlashCommand } from '../../slash-commands/SlashCommand.js';
+import { SlashCommandParser } from '../../slash-commands/SlashCommandParser.js';
+import { ARGUMENT_TYPE, SlashCommandArgument } from '../../slash-commands/SlashCommandArgument.js';
+import { oai_settings } from '../../openai.js';
 
 /**
  * Appends text to the OpenAI 'custom_include_body' setting.
@@ -24,13 +26,13 @@ function addBodyParamCallback(namedArgs, unnamedArgs) {
     const separator = oai_settings.custom_include_body.length > 0 ? '\n' : '';
     oai_settings.custom_include_body += separator + textToAdd;
 
-    // Persist the change to your settings.json
+    // Persist the change to settings.json
     saveSettingsDebounced();
 
     return `Added to OpenAI Body Params: ${textToAdd}`;
 }
 
-// Register the command using the official Parser method
+// Register the command when module loads
 SlashCommandParser.addCommandObject(SlashCommand.fromProps({
     name: 'addbodyparam',
     callback: addBodyParamCallback,
@@ -41,13 +43,7 @@ SlashCommandParser.addCommandObject(SlashCommand.fromProps({
             isRequired: true,
         }),
     ],
-    helpString: 'Appends text to the "custom_include_body" field in OpenAI settings.',
+    helpString: '/addbodyparam <text> - Appends text to the "custom_include_body" field in OpenAI settings.',
 }));
 
 console.log('Extension: AddBodyParam loaded successfully.');
-   // Use jQuery ready to ensure the rest of the ST core is loaded
-    // @ts-ignore
-    jQuery(() => {
-        registerCommand();
-    });
-})();
