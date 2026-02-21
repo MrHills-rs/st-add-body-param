@@ -29,7 +29,7 @@ function addBodyParamCallback(namedArgs, unnamedArgs) {
     // Persist the change to settings.json
     saveSettingsDebounced();
 
-    return `Added to OpenAI Body Params: ${textToAdd}`;
+    return `${textToAdd}`;
 }
 
 /**
@@ -41,7 +41,7 @@ function clearBodyParamCallback() {
     // Persist the change to settings.json
     saveSettingsDebounced();
 
-    return 'Cleared OpenAI Body Params.';
+    return '';
 }
 
 /**
