@@ -1,11 +1,11 @@
 // Extension: Add Body Param Slash Command
 // Location: scripts/extensions/third-party/st-add-body-param.js
 
-import { saveSettingsDebounced } from '../../../script.js';
-import { SlashCommand } from '../../slash-commands/SlashCommand.js';
-import { SlashCommandParser } from '../../slash-commands/SlashCommandParser.js';
-import { ARGUMENT_TYPE, SlashCommandArgument } from '../../slash-commands/SlashCommandArgument.js';
-import { oai_settings } from '../../openai.js';
+import { saveSettingsDebounced } from '../../../../script.js';
+import { SlashCommand } from '../../../slash-commands/SlashCommand.js';
+import { SlashCommandParser } from '../../../slash-commands/SlashCommandParser.js';
+import { ARGUMENT_TYPE, SlashCommandArgument } from '../../../slash-commands/SlashCommandArgument.js';
+import { oai_settings } from '../../../openai.js';
 
 /**
  * Appends text to the OpenAI 'custom_include_body' setting.
