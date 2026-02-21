@@ -73,7 +73,7 @@ SlashCommandParser.addCommandObject(SlashCommand.fromProps({
             isRequired: true,
         }),
     ],
-    helpString: '/addbodyparam <text> - Appends text to the "custom_include_body" field in OpenAI settings.',
+    helpString: '/addbodyparam <text> - Appends text to the Include body parameters field in OpenAI settings.',
 }));
 
 SlashCommandParser.addCommandObject(SlashCommand.fromProps({
