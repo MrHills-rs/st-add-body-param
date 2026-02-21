@@ -1,40 +1,51 @@
+// We go up 3 levels: st-add-body-param -> third-party -> extensions -> scripts
+import { saveSettingsDebounced } from '../../../../script.js';
 import { SlashCommand } from '../../../slash-commands/SlashCommand.js';
 import { SlashCommandParser } from '../../../slash-commands/SlashCommandParser.js';
-import { oai_settings, saveSettingsDebounced } from '../../../openai.js';
+import { ARGUMENT_TYPE, SlashCommandArgument } from '../../../slash-commands/SlashCommandArgument.js';
+import { oai_settings } from '../../../openai.js';
 
-(function() {
-    console.log("AddBodyParam: Loading from third-party folder...");
+/**
+ * Appends text to the OpenAI 'custom_include_body' setting.
+ */
+function addBodyParamCallback(namedArgs, unnamedArgs) {
+    const textToAdd = unnamedArgs;
 
-    const registerCommand = () => {
-        try {
-            SlashCommandParser.addCommandObject(SlashCommand.fromProps({
-                name: 'addbodyparam',
-                callback: (namedArgs, unnamedArgs) => {
-                    const text = unnamedArgs;
-                    if (!text) return 'Error: No text provided.';
-                    
-                    // Initialize if undefined/null
-                    if (typeof oai_settings.custom_include_body !== 'string') {
-                        oai_settings.custom_include_body = '';
-                    }
+    if (!textToAdd || typeof textToAdd !== 'string') {
+        return 'Error: Please provide a string to add to the body params.';
+    }
 
-                    // Append the new line
-                    oai_settings.custom_include_body += (oai_settings.custom_include_body ? '\n' : '') + text;
-                    
-                    // Trigger the save to settings.json
-                    saveSettingsDebounced();
-                    
-                    return `Added to body: ${text}`;
-                },
-                helpString: 'Appends text to the OpenAI Custom Include Body setting.',
-            }));
-            console.log("AddBodyParam: Command /addbodyparam registered.");
-        } catch (e) {
-            console.error("AddBodyParam: Failed to register command", e);
-        }
-    };
+    // Ensure the setting is a string before appending
+    if (typeof oai_settings.custom_include_body !== 'string') {
+        oai_settings.custom_include_body = '';
+    }
 
-    // Use jQuery ready to ensure the rest of the ST core is loaded
+    // Append the text. If there is already content, add a newline first.
+    const separator = oai_settings.custom_include_body.length > 0 ? '\n' : '';
+    oai_settings.custom_include_body += separator + textToAdd;
+
+    // Persist the change to your settings.json
+    saveSettingsDebounced();
+
+    return `Added to OpenAI Body Params: ${textToAdd}`;
+}
+
+// Register the command using the official Parser method
+SlashCommandParser.addCommandObject(SlashCommand.fromProps({
+    name: 'addbodyparam',
+    callback: addBodyParamCallback,
+    unnamedArgumentList: [
+        SlashCommandArgument.fromProps({
+            description: 'The string/JSON snippet to append to the custom body',
+            typeList: [ARGUMENT_TYPE.STRING],
+            isRequired: true,
+        }),
+    ],
+    helpString: 'Appends text to the "custom_include_body" field in OpenAI settings.',
+}));
+
+console.log('Extension: AddBodyParam loaded successfully.');
+   // Use jQuery ready to ensure the rest of the ST core is loaded
     // @ts-ignore
     jQuery(() => {
         registerCommand();
