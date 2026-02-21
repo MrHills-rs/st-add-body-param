@@ -32,7 +32,37 @@ function addBodyParamCallback(namedArgs, unnamedArgs) {
     return `Added to OpenAI Body Params: ${textToAdd}`;
 }
 
-// Register the command when module loads
+/**
+ * Clears the OpenAI 'custom_include_body' setting.
+ */
+function clearBodyParamCallback() {
+    oai_settings.custom_include_body = '';
+    
+    // Persist the change to settings.json
+    saveSettingsDebounced();
+
+    return 'Cleared OpenAI Body Params.';
+}
+
+/**
+ * Returns the current contents of the OpenAI 'custom_include_body' setting.
+ */
+function getBodyParamCallback() {
+    // Ensure the setting is a string
+    if (typeof oai_settings.custom_include_body !== 'string') {
+        oai_settings.custom_include_body = '';
+    }
+
+    const content = oai_settings.custom_include_body;
+
+    if (!content || content.length === 0) {
+        return 'OpenAI Body Params are currently empty.';
+    }
+
+    return `Current OpenAI Body Params:\n${content}`;
+}
+
+// Register the commands when module loads
 SlashCommandParser.addCommandObject(SlashCommand.fromProps({
     name: 'addbodyparam',
     callback: addBodyParamCallback,
@@ -44,6 +74,20 @@ SlashCommandParser.addCommandObject(SlashCommand.fromProps({
         }),
     ],
     helpString: '/addbodyparam <text> - Appends text to the "custom_include_body" field in OpenAI settings.',
+}));
+
+SlashCommandParser.addCommandObject(SlashCommand.fromProps({
+    name: 'clearbodyparam',
+    callback: clearBodyParamCallback,
+    unnamedArgumentList: [],
+    helpString: '/clearbodyparam - Clears all content from the "custom_include_body" field.',
+}));
+
+SlashCommandParser.addCommandObject(SlashCommand.fromProps({
+    name: 'getbodyparam',
+    callback: getBodyParamCallback,
+    unnamedArgumentList: [],
+    helpString: '/getbodyparam - Displays the current content of the "custom_include_body" field.',
 }));
 
 console.log('Extension: AddBodyParam loaded successfully.');
