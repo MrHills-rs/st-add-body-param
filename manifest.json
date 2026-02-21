@@ -7,5 +7,7 @@
   "description": "Adds /addbodyparam to append to custom_include_body",
   "requires": [],
   "optional": [],
-  "dependencies": []
+  "dependencies": [],
+  "homePage": "https://github.com/MrHills-rs/st-add-body-param",
+  "autoUpdate": true
 }
